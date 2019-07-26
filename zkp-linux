@@ -9,8 +9,7 @@ printf "${GREEN}*** Writting Enpoints to the hostfile ***${NC}\n"
 sleep 1
 
 #  This determines if the system is actually a version of linux
-#  If not--the reular starup script should proceed
- as normal
+#  If not--the reular starup script should proceed as normal
 if command -v lsb_release -a >/dev/null 2>&1 ; then
     printf "${NC}Script determined OS is ${GREEN}linux.${NC} Checking for proper enpoint entries...\n"
     # These enpoints are needed for the demo to function
