@@ -45,7 +45,8 @@ if command -v lsb_release -a >/dev/null 2>&1 ; then
     #  'api-gateway/.babelrc' is written as an empty directory
     #  this will ensure the file is added correctly
     rm -rf api-gateway/.babelrc
-    cp API-Gateway/.babelrc api-gateway/*
+    cp -r API-Gateway/src* api-gateway
+    cp API-Gateway/.babelrc api-gateway/
     printf "linux preperation complete. Starting using ./zkp-demo${NC}\n "
     sleep 1
     ./zkp-demo
