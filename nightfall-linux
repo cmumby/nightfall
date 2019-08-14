@@ -47,12 +47,12 @@ if command -v lsb_release -a >/dev/null 2>&1 ; then
     rm -rf api-gateway/.babelrc
     cp -r API-Gateway/src* api-gateway
     cp API-Gateway/.babelrc api-gateway/
-    printf "linux preperation complete. Starting using ./zkp-demo${NC}\n "
+    printf "linux preperation complete. Starting using ./nightfall${NC}\n "
     sleep 1
     ./nightfall
 exit
 else
-    printf "${RED}Script determined OS is NOT linux. proceeding normally. ${GREEN} Starting using ./zkp-demo${NC}\n";
+    printf "${RED}Script determined OS is NOT linux. proceeding normally. ${GREEN} Starting using ./nightfall${NC}\n";
     ./nightfall
     exit
 fi
