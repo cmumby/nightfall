@@ -1,0 +1,58 @@
+#!/bin/bash
+set -e
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+printf "${GREEN}*** Writting Enpoints to the hostfile ***${NC}\n"
+sleep 1
+
+#  This determines if the system is actually a version of linux
+#  If not--the reular starup script should proceed as normal
+if command -v lsb_release -a >/dev/null 2>&1 ; then
+    printf "${NC}Script determined OS is ${GREEN}linux.${NC} Checking for proper enpoint entries...\n"
+    # These enpoints are needed for the demo to function
+    endpoint_entries=(
+        '127.0.0.1    api-test.nightfall.docker'
+        '127.0.0.1    api.nightfall.docker'
+        '127.0.0.1    nightfall.docker'
+    )
+
+    #This will update the system with all the endpoints needed to run the demo
+    for i in "${endpoint_entries[@]}"; do 
+        if grep -qF "${i}" /etc/hosts;then
+            echo "${i} Found. Skipping..."
+        else
+            echo "adding ${i} ..."
+            echo "${i}"|cat - /etc/hosts > /tmp/out && mv /tmp/out /etc/hosts
+        fi
+    done
+    
+    printf "Hostfile updates complete.\n";
+    printf "${GREEN}*** Preparing API-Gateway for linux enviorment ***\n"
+    
+    # This will create the 'api-gateway' directory if it doesn't already exist
+    GATEWAY_PATH=api-gateway
+    if [ -d "${GATEWAY_PATH}" ]; then
+        printf "${NC}The directory 'api-gateway' exists, skipping creation...\n"
+    else
+        printf "${NC}The directory 'api-gateway' didn't exist--making directory now..."
+        mkdir api-gateway
+    fi
+
+    #  In some linux enviorments running /.zkp-demo will crash because
+    #  'api-gateway/.babelrc' is written as an empty directory
+    #  this will ensure the file is added correctly
+    rm -rf api-gateway/.babelrc
+    cp -r API-Gateway/src* api-gateway
+    cp API-Gateway/.babelrc api-gateway/
+    printf "linux preperation complete. Starting using ./zkp-demo${NC}\n "
+    sleep 1
+    ./nightfall
+exit
+else
+    printf "${RED}Script determined OS is NOT linux. proceeding normally. ${GREEN} Starting using ./zkp-demo${NC}\n";
+    ./nightfall
+    exit
+fi
