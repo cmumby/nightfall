@@ -1,4 +1,4 @@
 {
-	"apiServerURL": "http://localhost:8001",
+	"apiServerURL": "http://localhost:8002",
   "HASHLENGTH": 27
 }
