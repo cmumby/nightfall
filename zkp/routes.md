@@ -9,7 +9,7 @@ This is the micro-service that handles the **mint, burn, transfer and shield** p
 processing: Mints a certain amount of ERC-20 tokens.
 -  inputs:
     ```
-    {amount, address}
+    { amount, address }
     ```
 -  returns:
     ```
@@ -21,7 +21,7 @@ processing: Burns a certain amount ERC-20 tokens.
 
 -   inputs:
     ```
-    {amount, address}
+    { amount, address }
     ```
 -  returns:
     ```
@@ -43,7 +43,7 @@ processing : Transfers an ERC-20 token between addresses.
 processing : Makes a request for an ERC-20 token from its address.
 -    inputs:
         ```
-        {address}
+        { address }
         ```
 -   returns:
         ```
@@ -53,7 +53,7 @@ processing : Makes a request for an ERC-20 token from its address.
 processing:  Makes a request for an ERC-20 token's name, symbol and balance.
 -    inputs:
         ```
-        {address}
+        { address }
         ```
 -   returns:
         ```
@@ -65,7 +65,7 @@ processing:  Makes a request for an ERC-20 token's name, symbol and balance.
 processing: Mints an ERC-721 token.
 -    inputs:
         ```
-        {tokenID, tokenURI}
+        { tokenID, tokenURI }
         ```
 -   returns:
         ```
@@ -75,7 +75,7 @@ processing: Mints an ERC-721 token.
 processing: A Burns an ERC-721 token.
 -    inputs:
         ```
-        {tokenID}
+        { tokenID }
         ```
 -   returns:
         ```
@@ -87,7 +87,7 @@ processing: A Burns an ERC-721 token.
 processing: Transfer an ERC-721 token to another account.
 -    inputs:
         ```
-        {tokenID, to}
+        { tokenID, to }
         ```
 -   returns:
         ```
@@ -97,7 +97,7 @@ processing: Transfer an ERC-721 token to another account.
 procesing: Makes a request for an ERC-721 token from its address.
 -    inputs:
         ```
-        {address}
+        { address }
         ```
 -   returns:
         ```
@@ -107,17 +107,143 @@ procesing: Makes a request for an ERC-721 token from its address.
 processing:  Makes a request for an ERC-721 token's name, symbol and balance.
 -    inputs:
         ```
-        {address}
+        { address }
         ```
 -   returns:
         ```
-        {"data":{"balance":"0","nftName":,"nftSymbol":}}
+        {"data":{"balance","nftName":,"nftSymbol":}}
         ```
 ### ERC-20 Fungible Token Commitment Routes
-- `POST coin/mint` : A request to a mint an ERC-20 coin commitment.
-- `POST coin/burn` : A request to a mint an ERC-20 coin commitment.
-- `POST coin/transfer` : A request to transfer an ERC-20 coin commitment.
-- `POST coin/checkCorrectness` : A requets to validate all the paramters needed for a proper coin commitment
+#### `POST coin/mint` 
+processing: Mints an ERC-20 coin commitment.
+-  inputs:
+    ```
+    { A, pk_A } 
+-  returns:
+    ```
+    {"statusCode","data":{"coin","coin_index","S_A","action_type"}}
+    ```
+#### `POST coin/burn` 
+processing: Mints an ERC-20 coin commitment.
+-  inputs:
+    ```
+    { A, sk_A, S_A, z_A, z_A_index, payTo } 
+-  returns:
+    ```
+    {"statusCode","data":{"z_C","z_C_index"}}
+    ```
+#### `POST coin/transfer` 
+processing: Transfers an ERC-20 coin commitment between two accounts.
+-  inputs:
+    ```
+    { C, D, E, F, pk_B, S_C, S_D, sk_A, z_C, z_C_index, z_D, z_D_index } 
+-  returns:
+    ```
+   {"statusCode":,
+        "data":{  
+        "z_E",
+        "z_E_index",
+        "z_F",
+        "z_F_index",
+        "txObj":{  
+        "tx",
+        "receipt":{  
+                "transactionHash", 
+                "transactionIndex",
+                "blockHash",
+                "blockNumber",
+                "from",
+                "to",
+                "gasUsed",
+                "cumulativeGasUsed",
+                "contractAddress",
+                "logs":[  
+                {  
+                        "logIndex",
+                        "transactionIndex",
+                        "transactionHash",
+                        "blockHash",
+                        "blockNumber",
+                        "address",
+                        "type",
+                        "id":"log_be2b96b6",
+                        "event":"Transfer",
+                        "args":{  
+                                "0",
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "__length__",
+                                "nullifier1",
+                                "nullifier2",
+                                "coin1",
+                                "coin1_index",
+                                "coin2",
+                                "coin2_index",
+                                }
+                        }
+                        ],
+                        "status", 
+                        "logsBloom",
+                        "v",
+                        "r",
+                        "rawLogs"[  
+                        ],
+                },
+                "S_E",
+                "S_F",
+                }
+        }
+    ```
+
+
+#### `POST coin/checkCorrectness` 
+processing: Validates the accuracy of the ERC-20 commitment. 
+-  inputs:
+    ```
+    { E, pk, S_E, z_E, z_E_index }
+    ```
+-  returns:
+    ```
+    { results }
+    ```
+#### `POST coin/sheild`
+processing: sheilds the private data of an ERC-20 token committment with the help of zokrates. 
+-  inputs:
+    ```
+    { coinShield }
+    ```
+-  returns:
+    ```
+    {
+      message: 'CoinShield Address Set.',
+    }
+    ```
+
+#### `GET coin/sheild`
+processing: Gets the address of the shielded values of an of an ERC-20 token committment. 
+-  inputs:
+    ```
+    { address } // from request headers
+    ```
+-  returns:
+    ```
+    { name, sheildAddress }
+    ```
+#### `DELETE coin/sheild`
+processing: Deletes a shield for a ERC-20 committment. 
+-  inputs:
+    ```
+    { address } // from request headers
+    ```
+-  returns:
+    ```
+    {
+      message: 'CoinShield Address Unset.',
+    }
+    ```
 
 ### ERC-721 NON-Fungible Token Commitment Routes
 - `POST token/mint` : A request to a mint an ERC-721 token.
