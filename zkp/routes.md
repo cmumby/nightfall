@@ -40,7 +40,7 @@ processing : Transfers an ERC-20 token between addresses.
         ```
 #### `GET ft/address` 
 
-processing : Makes a request for an ERC-20 token's from its address.
+processing : Makes a request for an ERC-20 token from its address.
 -    inputs:
         ```
         {address}
@@ -57,24 +57,70 @@ processing:  Makes a request for an ERC-20 token's name, symbol and balance.
         ```
 -   returns:
         ```
-        {"data":{"balance":"0","nftName":,"nftSymbol":}}
+        {"data":{"balance":"0","ftName":,"ftSymbol":}}
         ```
 
 ### ERC-721 NON-Fungible Token Routes
-- `POST nft/mint` : A request to a mint an ERC-721 token.
-- `POST nft/burn` : A request to a mint an ERC-721 token.
-- `POST nft/transfer` : A request to transfer an ERC-721 token.
-- `GET nft/address` : A request for an ERC-721 token's address.
-- `GET nft/details` : A request for an ERC-721 token's information.
+#### `POST nft/mint` 
+processing: Mints an ERC-721 token.
+-    inputs:
+        ```
+        {tokenID, tokenURI}
+        ```
+-   returns:
+        ```
+       {"statusCode, "data":{"message"}}
+        ```
+#### `POST nft/burn` 
+processing: A Burns an ERC-721 token.
+-    inputs:
+        ```
+        {tokenID}
+        ```
+-   returns:
+        ```
+       {"statusCode, "data":{"message"}}
+        ```
+
+
+#### `POST nft/transfer` 
+processing: Transfer an ERC-721 token to another account.
+-    inputs:
+        ```
+        {tokenID, to}
+        ```
+-   returns:
+        ```
+       {"statusCode, "data":{"message"}}
+        ```
+#### `GET nft/address` 
+procesing: Makes a request for an ERC-721 token from its address.
+-    inputs:
+        ```
+        {address}
+        ```
+-   returns:
+        ```
+        {"statusCode":"data":{nftAddress:}}
+        ```
+#### `GET nft/details` 
+processing:  Makes a request for an ERC-721 token's name, symbol and balance.
+-    inputs:
+        ```
+        {address}
+        ```
+-   returns:
+        ```
+        {"data":{"balance":"0","nftName":,"nftSymbol":}}
+        ```
+### ERC-20 Fungible Token Commitment Routes
+- `POST coin/mint` : A request to a mint an ERC-20 coin commitment.
+- `POST coin/burn` : A request to a mint an ERC-20 coin commitment.
+- `POST coin/transfer` : A request to transfer an ERC-20 coin commitment.
+- `POST coin/checkCorrectness` : A requets to validate all the paramters needed for a proper coin commitment
 
 ### ERC-721 NON-Fungible Token Commitment Routes
 - `POST token/mint` : A request to a mint an ERC-721 token.
 - `POST token/burn` : A request to a mint an ERC-721 token.
 - `POST token/transfer` : A request to transfer an ERC-721 token.
 - `POST token/shield` : A request shield a token.
-
-### ERC-20 Fungible Token Commitment Routes
-- `POST coin/mint` : A request to a mint an ERC-20 coin commitment.
-- `POST coin/burn` : A request to a mint an ERC-20 coin commitment.
-- `POST coin/transfer` : A request to transfer an ERC-20 coin commitment.
-- `POST coin/checkCorrectness` : A requets to validate all the paramters needed for a proper coin commitment
