@@ -124,7 +124,7 @@ processing: Mints an ERC-20 coin commitment.
     {"statusCode","data":{"coin","coin_index","S_A","action_type"}}
     ```
 #### `POST coin/burn` 
-processing: Mints an ERC-20 coin commitment.
+processing: Burns an ERC-20 coin commitment.
 -  inputs:
     ```
     { A, sk_A, S_A, z_A, z_A_index, payTo } 
@@ -139,65 +139,16 @@ processing: Transfers an ERC-20 coin commitment between two accounts.
     { C, D, E, F, pk_B, S_C, S_D, sk_A, z_C, z_C_index, z_D, z_D_index } 
 -  returns:
     ```
-   {"statusCode":,
-        "data":{  
-        "z_E",
-        "z_E_index",
-        "z_F",
-        "z_F_index",
-        "txObj":{  
-        "tx",
-        "receipt":{  
-                "transactionHash", 
-                "transactionIndex",
-                "blockHash",
-                "blockNumber",
-                "from",
-                "to",
-                "gasUsed",
-                "cumulativeGasUsed",
-                "contractAddress",
-                "logs":[  
-                {  
-                        "logIndex",
-                        "transactionIndex",
-                        "transactionHash",
-                        "blockHash",
-                        "blockNumber",
-                        "address",
-                        "type",
-                        "id":"log_be2b96b6",
-                        "event":"Transfer",
-                        "args":{  
-                                "0",
-                                "1",
-                                "2",
-                                "3",
-                                "4",
-                                "5",
-                                "__length__",
-                                "nullifier1",
-                                "nullifier2",
-                                "coin1",
-                                "coin1_index",
-                                "coin2",
-                                "coin2_index",
-                                }
-                        }
-                        ],
-                        "status", 
-                        "logsBloom",
-                        "v",
-                        "r",
-                        "rawLogs"[  
-                        ],
-                },
-                "S_E",
-                "S_F",
-                }
-        }
+   {
+      z_E,
+      z_E_index,
+      z_F,
+      z_F_index,
+      txObj,
+      S_E,
+      S_F,
+    }
     ```
-
 
 #### `POST coin/checkCorrectness` 
 processing: Validates the accuracy of the ERC-20 commitment. 
@@ -246,7 +197,83 @@ processing: Deletes a shield for a ERC-20 committment.
     ```
 
 ### ERC-721 NON-Fungible Token Commitment Routes
-- `POST token/mint` : A request to a mint an ERC-721 token.
-- `POST token/burn` : A request to a mint an ERC-721 token.
-- `POST token/transfer` : A request to transfer an ERC-721 token.
-- `POST token/shield` : A request shield a token.
+#### `POST token/mint`
+processing: Mints an ERC-721 coin commitment.
+-  inputs:
+    ```
+    { A, pk_A } 
+-  returns:
+    ```
+    {"statusCode","data":{
+      z_A,
+      z_A_index,
+      S_A,
+    }}
+    ```
+#### `POST token/burn`
+processing: Burns an ERC-721 coin commitment.
+-  inputs:
+    ```
+    { A, S_A, Sk_A, z_A, z_A_index, payTo } 
+-  returns:
+    ```
+    {"statusCode","data":{"z_A"}
+    ```
+#### `POST token/transfer`
+processing: Transfers an ERC-20 coin commitment between two accounts.
+-  inputs:
+    ```
+    { C, D, E, F, pk_B, S_C, S_D, sk_A, z_C, z_C_index, z_D, z_D_index } 
+-  returns:
+    ```
+   {
+      z_B,
+      z_B_index,
+      txObj,
+      S_B,
+    }
+    ```
+#### `POST token/checkCorrectness` 
+processing: Validates the accuracy of the ERC-721 commitment. 
+-  inputs:
+    ```
+    { A, pk, S_A, z_A, z_A_index }
+    ```
+-  returns:
+    ```
+    { results }
+    ```
+#### `POST token/shield`
+processing: sheilds the private data of an ERC-721 token committment with the help of zokrates. 
+-  inputs:
+    ```
+    { tokenShield }
+    ```
+-  returns:
+    ```
+    {
+      message: 'TokenShield Address Set.',
+    }
+    ```
+#### `GET token/shield`
+processing: Gets the address of the shielded values of an of an ERC-721 token committment. 
+-  inputs:
+    ```
+    { address } // from request headers
+    ```
+-  returns:
+    ```
+    { name, sheildAddress }
+    ```
+#### `DELETE token/shield`
+processing: Deletes a shield for a ERC-721 committment. 
+-  inputs:
+    ```
+    { address } // from request headers
+    ```
+-  returns:
+    ```
+    {
+      message: 'CoinShield Address Unset.',
+    }
+    ```
