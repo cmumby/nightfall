@@ -15,3 +15,9 @@ zkp-start:
 
 zkp-test:
 	docker-compose run --rm zkp npm t
+
+annihilate-docker:
+	docker system prune -a
+	docker volume prune
+	docker rmi -f $(docker images -a -q)
+	docker rm -f -v $(docker ps -a -q)
